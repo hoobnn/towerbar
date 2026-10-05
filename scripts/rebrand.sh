@@ -29,10 +29,14 @@ perl -0pi -e '
   s/(?<![A-Za-z_])CellDockVoWiFiRuntime(?![A-Za-z_])/TowerBarVoWiFiRuntime/g;
   # The ADB host banner is a protocol string shared with the module side.
   s/host::CellDock/host::\x00KEEP\x00/g;
+  # Upstream attribution stays as written.
+  s/Based on CellDock/Based on \x00KEEP\x00/g;
+  s/CellDock contributors/\x00KEEP\x00 contributors/g;
   # Bare product name: UI text, paths, defaults keys. Skips CellDockFoo
   # identifiers and Sources/CellDock/ target directories.
   s/(?<!Sources\/)(?<![A-Za-z_])CellDock(?![A-Za-z_\/])/TowerBar/g;
-  s/host::\x00KEEP\x00/host::CellDock/g;
+  s/\x00KEEP\x00/CellDock/g;
+  s#"Sources" / "TowerBar"#"Sources" / "CellDock"#g;
   # On-disk state must not collide with an installed CellDock.
   s#Application Support/CellDock/#Application Support/TowerBar/#g;
   s#/var/run/celldock-vowifi#/var/run/towerbar-vowifi#g;

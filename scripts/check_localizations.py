@@ -389,7 +389,7 @@ def main() -> int:
         for key in sorted(keys - reference_keys):
             key_set_errors.append(f"{language} has extra key {key!r}")
 
-    usages = literal_l10n_keys(root / "Sources" / "TowerBar")
+    usages = literal_l10n_keys(root / "Sources" / "CellDock")
     missing_usage_errors: list[str] = []
     for key, locations in sorted(usages.items()):
         missing_languages = [language for language in LANGUAGES if key not in tables[language]]
