@@ -10,4 +10,4 @@ print "\nPersisted macOS network service"
   grep -i -A 3 -B 1 -E 'Baiwang|QDC507|Quectel|EC25|EG25' || true
 
 print "\nCellDock process"
-pgrep -lf 'CellDock' || true
+pgrep -lf 'TowerBar' || true

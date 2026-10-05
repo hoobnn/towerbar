@@ -20,8 +20,8 @@ for mode in --probe-voice-interface --full-flow --full-flow-after-connect \
   fi
 done
 
-if pgrep -x CellDock >/dev/null 2>&1; then
-  print -u2 "CellDock is running and may own the AT/UAC interfaces. Quit it before this code-level probe."
+if pgrep -x TowerBar >/dev/null 2>&1; then
+  print -u2 "TowerBar is running and may own the AT/UAC interfaces. Quit it before this code-level probe."
   exit 20
 fi
 

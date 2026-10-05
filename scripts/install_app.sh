@@ -2,19 +2,19 @@
 set -euo pipefail
 
 ROOT="${0:A:h:h}"
-SOURCE_APP="${CELLDOCK_APP_SOURCE:-${MAVO_APP_SOURCE:-$ROOT/dist/CellDock.app}}"
-DESTINATION_APP="/Applications/CellDock.app"
+SOURCE_APP="${CELLDOCK_APP_SOURCE:-${MAVO_APP_SOURCE:-$ROOT/dist/TowerBar.app}}"
+DESTINATION_APP="/Applications/TowerBar.app"
 LEGACY_APP="/Applications/MaVo.app"
 LAUNCH_AFTER_INSTALL="${1:-}"
 
 [[ -d "$SOURCE_APP" ]] || {
-  print -u2 "CellDock app not found: $SOURCE_APP"
+  print -u2 "TowerBar app not found: $SOURCE_APP"
   exit 1
 }
 codesign --verify --deep --strict "$SOURCE_APP"
 
-STAGE_ROOT="$(mktemp -d /Applications/.CellDock-install.XXXXXX)"
-STAGE_APP="$STAGE_ROOT/CellDock.app"
+STAGE_ROOT="$(mktemp -d /Applications/.TowerBar-install.XXXXXX)"
+STAGE_APP="$STAGE_ROOT/TowerBar.app"
 BACKUP_APP=""
 LEGACY_BACKUP_APP=""
 INSTALL_COMPLETE=false
@@ -40,7 +40,7 @@ ditto "$SOURCE_APP" "$STAGE_APP"
 xattr -cr "$STAGE_APP"
 codesign --verify --deep --strict "$STAGE_APP"
 
-pkill -x CellDock >/dev/null 2>&1 || true
+pkill -x TowerBar >/dev/null 2>&1 || true
 pkill -x MaVo >/dev/null 2>&1 || true
 
 if [[ -e "$LEGACY_APP" ]]; then
@@ -48,14 +48,14 @@ if [[ -e "$LEGACY_APP" ]]; then
   mv -- "$LEGACY_APP" "$LEGACY_BACKUP_APP"
 fi
 if [[ -e "$DESTINATION_APP" ]]; then
-  BACKUP_APP="/Applications/CellDock.previous.$(date +%Y%m%d-%H%M%S).app"
+  BACKUP_APP="/Applications/TowerBar.previous.$(date +%Y%m%d-%H%M%S).app"
   mv -- "$DESTINATION_APP" "$BACKUP_APP"
 fi
 mv -- "$STAGE_APP" "$DESTINATION_APP"
 INSTALL_COMPLETE=true
 
 codesign --verify --deep --strict "$DESTINATION_APP"
-print "Installed CellDock: $DESTINATION_APP"
+print "Installed TowerBar: $DESTINATION_APP"
 if [[ -n "$BACKUP_APP" ]]; then
   print "Previous app backup: $BACKUP_APP"
 fi
@@ -64,7 +64,7 @@ if [[ -n "$LEGACY_BACKUP_APP" ]]; then
 fi
 
 if [[ "$LAUNCH_AFTER_INSTALL" == "--launch" ]]; then
-  INSTALLED_BINARY="$DESTINATION_APP/Contents/MacOS/CellDock"
+  INSTALLED_BINARY="$DESTINATION_APP/Contents/MacOS/TowerBar"
   LAUNCH_TOKEN="--celldock-launch-token=$$-$RANDOM"
   /usr/bin/open -n -a "$DESTINATION_APP" --args "$LAUNCH_TOKEN"
   INSTALLED_PID=""
@@ -79,15 +79,15 @@ if [[ "$LAUNCH_AFTER_INSTALL" == "--launch" ]]; then
     sleep 0.1
   done
   [[ -n "$INSTALLED_PID" ]] || {
-    print -u2 "Installed CellDock did not start: $DESTINATION_APP"
+    print -u2 "Installed TowerBar did not start: $DESTINATION_APP"
     exit 1
   }
   sleep 2
   kill -0 "$INSTALLED_PID" 2>/dev/null
   RUNNING_COMMAND="$(ps -p "$INSTALLED_PID" -o command=)"
   [[ "$RUNNING_COMMAND" == "$INSTALLED_BINARY"* ]] || {
-    print -u2 "Unexpected CellDock executable: $RUNNING_COMMAND"
+    print -u2 "Unexpected TowerBar executable: $RUNNING_COMMAND"
     exit 1
   }
-  print "Installed CellDock launch verified: $INSTALLED_BINARY (pid $INSTALLED_PID)"
+  print "Installed TowerBar launch verified: $INSTALLED_BINARY (pid $INSTALLED_PID)"
 fi

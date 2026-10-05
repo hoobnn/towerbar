@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 enum AppLanguage: String, CaseIterable, Identifiable {
-    static let defaultsKey = "CellDock.AppLanguage.v1"
+    static let defaultsKey = "TowerBar.AppLanguage.v1"
 
     case simplifiedChinese = "zh-Hans"
     case english = "en"
@@ -53,7 +53,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
 
 extension Notification.Name {
     static let cellDockAppLanguageDidChange = Notification.Name(
-        "CellDock.AppLanguageDidChange"
+        "TowerBar.AppLanguageDidChange"
     )
 }
 

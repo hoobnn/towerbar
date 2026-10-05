@@ -108,15 +108,15 @@ enum AlertSoundKind: String, CaseIterable, Identifiable {
     fileprivate var defaultBundledSound: BundledAlertSound { bundledSounds[0] }
 
     fileprivate var customFileKey: String {
-        "CellDock.AlertSound.\(rawValue).customFile.v1"
+        "TowerBar.AlertSound.\(rawValue).customFile.v1"
     }
 
     fileprivate var customDisplayNameKey: String {
-        "CellDock.AlertSound.\(rawValue).displayName.v1"
+        "TowerBar.AlertSound.\(rawValue).displayName.v1"
     }
 
     fileprivate var bundledSoundKey: String {
-        "CellDock.AlertSound.\(rawValue).bundledSound.v1"
+        "TowerBar.AlertSound.\(rawValue).bundledSound.v1"
     }
 }
 
@@ -127,7 +127,7 @@ enum AlertSoundServiceError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case let .bundledSoundMissing(fileName):
-            return L10n.tr("应用内置声音 %@ 不存在，请重新安装 CellDock。", fileName)
+            return L10n.tr("应用内置声音 %@ 不存在，请重新安装 TowerBar。", fileName)
         case .invalidAudio:
             return L10n.tr("无法读取该音频文件，请选择 macOS 支持的音频格式。")
         }
@@ -482,7 +482,7 @@ final class AlertSoundService: ObservableObject {
             in: .userDomainMask
         ).first ?? fileManager.homeDirectoryForCurrentUser
         return applicationSupport
-            .appendingPathComponent("CellDock", isDirectory: true)
+            .appendingPathComponent("TowerBar", isDirectory: true)
             .appendingPathComponent("Sounds", isDirectory: true)
     }
 }

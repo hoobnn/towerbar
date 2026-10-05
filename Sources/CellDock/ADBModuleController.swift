@@ -22,7 +22,7 @@ final class ADBModuleController {
             case let .openFailed(message): return message
             case .interfaceBusy:
                 return L10n.tr(
-                    "模块控制接口正被 adb、Android Studio 或另一份 CellDock 占用；CellDock 已请求对方释放，但对方仍在使用。"
+                    "模块控制接口正被 adb、Android Studio 或另一份 TowerBar 占用；TowerBar 已请求对方释放，但对方仍在使用。"
                 )
             case let .transport(message): return message
             case let .protocolViolation(message): return message

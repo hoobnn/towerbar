@@ -1044,7 +1044,7 @@ enum SMSDeliveryState: String, Codable, Equatable {
 }
 
 struct SMSMessage: Identifiable, Codable, Equatable {
-    static let interruptedDeliveryDetailCode = "CellDock.SMSDelivery.Interrupted"
+    static let interruptedDeliveryDetailCode = "TowerBar.SMSDelivery.Interrupted"
 
     var id: String
     var moduleID: CellularModuleID? = nil

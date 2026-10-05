@@ -34,8 +34,8 @@ final class VoWiFiHostManager {
         let statusPath: String
     }
 
-    private let runtimePath = "/Library/PrivilegedHelperTools/CellDockVoWiFiRuntime"
-    private let stateDirectory = "/var/run/celldock-vowifi"
+    private let runtimePath = "/Library/PrivilegedHelperTools/TowerBarVoWiFiRuntime"
+    private let stateDirectory = "/var/run/towerbar-vowifi"
     private var runtimes: [String: ManagedRuntime] = [:]
 
     func start(_ request: VoWiFiHostStartRequest) -> (HelperActionResult, Data?) {
@@ -46,7 +46,7 @@ final class VoWiFiHostManager {
             return (.failure("VoWiFi 启动请求无效。"), nil)
         }
         guard FileManager.default.isExecutableFile(atPath: runtimePath) else {
-            return (.failure("未安装 CellDockVoWiFiRuntime。"), nil)
+            return (.failure("未安装 TowerBarVoWiFiRuntime。"), nil)
         }
         _ = stop(VoWiFiHostStatusRequest(runtimeKey: request.runtimeKey))
         do {
@@ -98,7 +98,7 @@ final class VoWiFiHostManager {
                 // happens on the next status/start/stop operation.
                 try? logHandle.close()
                 if terminated.terminationStatus != 0 {
-                    NSLog("CellDockVoWiFiRuntime exited status=%d", terminated.terminationStatus)
+                    NSLog("TowerBarVoWiFiRuntime exited status=%d", terminated.terminationStatus)
                 }
                 _ = self
             }

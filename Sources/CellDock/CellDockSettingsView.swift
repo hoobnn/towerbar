@@ -27,7 +27,7 @@ struct CellDockSettingsView: View {
             case .general: return L10n.tr("启动、外观与菜单栏行为")
             case .sounds: return L10n.tr("选择短信与来电使用的提示音")
             case .communications: return L10n.tr("查看模块状态并管理通话与短信处理")
-            case .permissions: return L10n.tr("检查 CellDock 的系统访问权限")
+            case .permissions: return L10n.tr("检查 TowerBar 的系统访问权限")
             case .updates: return L10n.tr("检查版本并选择更新频道")
             }
         }
@@ -153,14 +153,14 @@ struct CellDockSettingsView: View {
             }
             .communicationSidebarScrollEdgeEffect()
 
-            Text(verbatim: "CellDock · \(updaterManager.currentVersion)")
+            Text(verbatim: "TowerBar · \(updaterManager.currentVersion)")
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
                 .padding(.bottom, 12)
-                .accessibilityLabel("CellDock \(updaterManager.currentVersion)")
+                .accessibilityLabel("TowerBar \(updaterManager.currentVersion)")
         }
         .communicationInitialListFocus($listFocused)
         .communicationSidebarColumnStyle()
@@ -422,17 +422,17 @@ struct CellDockSettingsView: View {
 
             settingsSection(title: L10n.tr("应用操作")) {
                 settingRow(
-                    title: L10n.tr("完全退出 CellDock"),
+                    title: L10n.tr("完全退出 TowerBar"),
                     detail: L10n.tr("关闭窗口不会停止短信、来电和模块监测")
                 ) {
                     Button(role: .destructive) {
                         appState.quit()
                     } label: {
-                        Label("完全退出 CellDock", systemImage: "power")
+                        Label("完全退出 TowerBar", systemImage: "power")
                     }
                     .adaptiveGlassButton()
                     .tint(.red)
-                    .help("完全退出 CellDock，并停止后台短信、来电和模块监测")
+                    .help("完全退出 TowerBar，并停止后台短信、来电和模块监测")
                 }
                 .padding(16)
             }
@@ -479,7 +479,7 @@ struct CellDockSettingsView: View {
 
                     settingRow(
                         title: L10n.tr("立即检查"),
-                        detail: L10n.tr("从 CellDock 官方服务器检查并验证更新")
+                        detail: L10n.tr("从 TowerBar 官方服务器检查并验证更新")
                     ) {
                         Button("检查更新…") {
                             updaterManager.checkForUpdates()
@@ -809,8 +809,8 @@ struct CellDockSettingsView: View {
 
     private var launchAtLoginDetail: String {
         switch appState.launchAtLoginStatus {
-        case .disabled: return L10n.tr("登录 Mac 后可在后台自动运行 CellDock")
-        case .enabled: return L10n.tr("登录 Mac 后在后台运行 CellDock")
+        case .disabled: return L10n.tr("登录 Mac 后可在后台自动运行 TowerBar")
+        case .enabled: return L10n.tr("登录 Mac 后在后台运行 TowerBar")
         case .unavailable: return L10n.tr("当前应用位置或用户会话不支持登录启动")
         }
     }

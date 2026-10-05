@@ -40,7 +40,7 @@ enum VoWiFiSIMBridgeError: LocalizedError {
 }
 
 /// A loopback-only, capability-scoped bridge between the privileged Go runtime
-/// and the single AT transport already owned by CellDock. Every request carries
+/// and the single AT transport already owned by TowerBar. Every request carries
 /// an unguessable session token and is restricted to identity/APDU commands;
 /// the runtime can never dial, reset the modem, or alter radio configuration.
 final class VoWiFiSIMBridge {
@@ -58,7 +58,7 @@ final class VoWiFiSIMBridge {
     private var listener: NWListener?
 
     init(moduleID: CellularModuleID, executor: @escaping Executor) {
-        queue = DispatchQueue(label: "app.celldock.vowifi.sim-bridge.\(moduleID.rawValue)")
+        queue = DispatchQueue(label: "com.hoobnn.towerbar.vowifi.sim-bridge.\(moduleID.rawValue)")
         self.executor = executor
     }
 

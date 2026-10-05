@@ -209,7 +209,7 @@ enum ATResponseParser {
 
             // 3GPP TS 27.007 defines service=4 as the voice MSISDN. A SIM may
             // return separate data, fax and packet numbers; those must not be
-            // shown as the phone number used by CellDock.
+            // shown as the phone number used by TowerBar.
             if service == 4 {
                 return normalizedNumber
             }

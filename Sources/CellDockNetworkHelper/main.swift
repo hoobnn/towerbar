@@ -6,12 +6,12 @@ import Security
 import SystemConfiguration
 
 private let networkHelperLogger = Logger(
-    subsystem: "app.celldock.mac.network.helper",
+    subsystem: "com.hoobnn.towerbar.network.helper",
     category: "CellularNetwork"
 )
 
 private final class NetworkHelperService: NSObject, CellDockNetworkHelperProtocol {
-    private let queue = DispatchQueue(label: "app.celldock.mac.network.helper.mutation")
+    private let queue = DispatchQueue(label: "com.hoobnn.towerbar.network.helper.mutation")
     private let mutator = RootNetworkMutator()
     private let voWiFiHost = VoWiFiHostManager()
 
@@ -108,7 +108,7 @@ private final class NetworkHelperListenerDelegate: NSObject, NSXPCListenerDelega
         shouldAcceptNewConnection connection: NSXPCConnection
     ) -> Bool {
         guard ClientValidator.isAllowed(connection) else {
-            NSLog("CellDockNetworkHelper rejected XPC client pid=%d uid=%d",
+            NSLog("TowerBarNetworkHelper rejected XPC client pid=%d uid=%d",
                   connection.processIdentifier,
                   connection.effectiveUserIdentifier)
             return false
@@ -165,7 +165,7 @@ private enum ClientValidator {
     }
 
     private static func isAllowedExecutablePath(_ path: String) -> Bool {
-        let expectedPath = "/Applications/CellDock.app/Contents/MacOS/CellDock"
+        let expectedPath = "/Applications/TowerBar.app/Contents/MacOS/TowerBar"
         let standardizedPath = URL(fileURLWithPath: path).standardizedFileURL.path
         return standardizedPath == expectedPath && canonical(standardizedPath) == expectedPath
     }
@@ -210,7 +210,7 @@ private enum ClientValidator {
         let appBundleURL = executableURL
             .deletingLastPathComponent() // MacOS
             .deletingLastPathComponent() // Contents
-            .deletingLastPathComponent() // CellDock.app
+            .deletingLastPathComponent() // TowerBar.app
         let canonicalSignedPath = canonical((signedPath as URL).path)
         return canonicalSignedPath == canonical(executablePath) ||
             canonicalSignedPath == canonical(appBundleURL.path)
@@ -218,7 +218,7 @@ private enum ClientValidator {
 }
 
 guard geteuid() == 0 else {
-    NSLog("CellDockNetworkHelper must run as root")
+    NSLog("TowerBarNetworkHelper must run as root")
     exit(EXIT_FAILURE)
 }
 

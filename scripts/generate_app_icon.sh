@@ -3,8 +3,8 @@ set -euo pipefail
 
 ROOT="${0:A:h:h}"
 SOURCE="$ROOT/Resources/app_icon.png"
-ICONSET="$ROOT/Resources/CellDock.iconset"
-ICON="$ROOT/Resources/CellDock.icns"
+ICONSET="$ROOT/Resources/TowerBar.iconset"
+ICON="$ROOT/Resources/TowerBar.icns"
 
 if [[ ! -f "$SOURCE" ]]; then
     print -u2 "Missing icon source: $SOURCE"

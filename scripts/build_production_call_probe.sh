@@ -7,7 +7,7 @@ export CLANG_MODULE_CACHE_PATH="${CLANG_MODULE_CACHE_PATH:-$ROOT/.build/caches/c
 export SWIFTPM_MODULECACHE_OVERRIDE="${SWIFTPM_MODULECACHE_OVERRIDE:-$ROOT/.build/caches/swiftpm}"
 TOOLS_DIR="$ROOT/.build/tools"
 PROBE_BINARY="$TOOLS_DIR/celldock_production_call_probe"
-PROBE_APP="$TOOLS_DIR/CellDock Production Call Probe.app"
+PROBE_APP="$TOOLS_DIR/TowerBar Production Call Probe.app"
 
 mkdir -p "$TOOLS_DIR"
 xcrun clang \

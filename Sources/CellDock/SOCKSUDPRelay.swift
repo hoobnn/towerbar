@@ -3,7 +3,7 @@ import Network
 import OSLog
 
 private let socksUDPLogger = Logger(
-    subsystem: "app.celldock.mac",
+    subsystem: "com.hoobnn.towerbar",
     category: "SOCKSUDPRelay"
 )
 

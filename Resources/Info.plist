@@ -5,13 +5,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>zh-Hans</string>
 	<key>CFBundleDisplayName</key>
-	<string>CellDock</string>
+	<string>TowerBar</string>
 	<key>CFBundleExecutable</key>
-	<string>CellDock</string>
+	<string>TowerBar</string>
 	<key>CFBundleIconFile</key>
-	<string>CellDock.icns</string>
+	<string>TowerBar.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>app.celldock.mac</string>
+	<string>com.hoobnn.towerbar</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleLocalizations</key>
@@ -22,11 +22,11 @@
 		<string>fr</string>
 	</array>
 	<key>CFBundleName</key>
-	<string>CellDock</string>
+	<string>TowerBar</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.3.1</string>
+	<string>0.1.0</string>
 	<key>CFBundleVersion</key>
 	<string>105</string>
 	<key>LSMinimumSystemVersion</key>
@@ -38,14 +38,14 @@
 	<key>NSHighResolutionCapable</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2026 CellDock contributors</string>
+	<string>Copyright © 2026 TowerBar contributors. Based on CellDock © 2026 CellDock contributors.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>用于通过蜂窝模块在 Mac 上进行语音通话。</string>
 	<key>SUEnableInstallerLauncherService</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://celldock.app/stable/appcast.xml</string>
+	<string>https://raw.githubusercontent.com/hoobnn/towerbar/main/appcast/stable.xml</string>
 	<key>SUPublicEDKey</key>
-	<string>9H4Cz4KZOY3eW5N8P14C7K9gJU9yW2W/FSyzUtuWrow=</string>
+	<string>dvMhW4E9TtxfpTS+p5Z8KJO7IBXWbOBHpjxWNy3dWmA=</string>
 </dict>
 </plist>

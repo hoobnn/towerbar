@@ -7,7 +7,7 @@ import OSLog
 import SystemConfiguration
 
 private let cellularNetworkLogger = Logger(
-    subsystem: "app.celldock.mac",
+    subsystem: "com.hoobnn.towerbar",
     category: "CellularNetwork"
 )
 
@@ -15,14 +15,14 @@ final class NetworkServiceController {
     var onStatus: ((CellularNetworkStatus) -> Void)?
     var onStatuses: (([UInt32: CellularNetworkStatus]) -> Void)?
 
-    private let queue = DispatchQueue(label: "app.celldock.mac.network", qos: .userInitiated)
+    private let queue = DispatchQueue(label: "com.hoobnn.towerbar.network", qos: .userInitiated)
     private let helperClient = NetworkHelperClient()
     private var timer: DispatchSourceTimer?
     private var lastPublishedStatus: CellularNetworkStatus?
     private var lastPublishedStatuses: [UInt32: CellularNetworkStatus] = [:]
     private var reportedAddressOverlapLocationIDs: Set<UInt32> = []
     private var preferredLocationID: UInt32?
-    private let serviceRecordKey = "CellDock.modemNetworkServiceRecord"
+    private let serviceRecordKey = "TowerBar.modemNetworkServiceRecord"
     private let knownNames = ["baiwang", "qdc507", "quectel", "ec25", "eg25"]
 
     func startMonitoring() {
@@ -100,7 +100,7 @@ final class NetworkServiceController {
     }
 
     private func readAllStatuses() -> [UInt32: CellularNetworkStatus] {
-        guard let preferences = SCPreferencesCreate(nil, "CellDock All Modules" as NSString, nil),
+        guard let preferences = SCPreferencesCreate(nil, "TowerBar All Modules" as NSString, nil),
               let networkSet = SCNetworkSetCopyCurrent(preferences) else {
             return [:]
         }
@@ -216,7 +216,7 @@ final class NetworkServiceController {
     }
 
     private func readStatus() -> CellularNetworkStatus {
-        guard let preferences = SCPreferencesCreate(nil, "CellDock" as NSString, nil),
+        guard let preferences = SCPreferencesCreate(nil, "TowerBar" as NSString, nil),
               let networkSet = SCNetworkSetCopyCurrent(preferences) else {
             return CellularNetworkStatus(
                 lastError: systemConfigurationError(L10n.tr("无法读取网络配置"))

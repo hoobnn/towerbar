@@ -13,7 +13,7 @@ struct SMSForwardingCredentialStore {
         case dingtalkSecret = "dingtalk.secret"
     }
 
-    private let service = "app.celldock.mac.sms-forwarding"
+    private let service = "com.hoobnn.towerbar.sms-forwarding"
 
     func value(for field: Field) throws -> String? {
         let query: [String: Any] = [

@@ -4,7 +4,7 @@ import Network
 import OSLog
 
 private let socksProxyLogger = Logger(
-    subsystem: "app.celldock.mac",
+    subsystem: "com.hoobnn.towerbar",
     category: "SOCKSProxy"
 )
 

@@ -1,14 +1,20 @@
 [English](README.md) · [简体中文](README.zh-CN.md)
 
 <p align="center">
-  <img src="Resources/app_icon.png" width="128" height="128" alt="CellDock 图标">
+  <img src="Resources/app_icon.png" width="128" height="128" alt="TowerBar 图标">
 </p>
 
-<h1 align="center">CellDock</h1>
+<h1 align="center">TowerBar</h1>
 
 <p align="center">
   在 Mac 上使用蜂窝网络、短信和电话。
 </p>
+
+> [!NOTE]
+> TowerBar 是 [CellDock](https://github.com/celldock/celldock-for-mac) 的非官方修改版，由
+> [@hoobnn](https://github.com/hoobnn) 维护，与 CellDock 原作者无关。问题请提交到
+> [本仓库](https://github.com/hoobnn/towerbar/issues)，不要提交给上游。TowerBar 使用独立的
+> Bundle ID、网络 helper、钥匙串条目和更新源，可以与 CellDock 同时安装。截图沿用自上游。
 
 <p align="center">
   <sub>界面预览 · 点击图片查看原图</sub>
@@ -34,7 +40,7 @@
 | :---: |
 | <a href="screenshot/7. forwarding.png"><img src="screenshot/7. forwarding.png" width="320" alt="短信转发"></a> |
 
-CellDock 是一款原生 macOS 菜单栏应用，用于连接 QDC507 蜂窝模组。插入模组后，
+TowerBar 是一款原生 macOS 菜单栏应用，用于连接 QDC507 蜂窝模组。插入模组后，
 你可以直接在 Mac 上使用蜂窝网络、收发短信、管理通讯录、拨打电话、保存通话录音，
 或把指定模组的蜂窝连接作为 SOCKS5 代理共享，无需浏览器服务或额外的通信软件。
 
@@ -73,7 +79,7 @@ CellDock 是一款原生 macOS 菜单栏应用，用于连接 QDC507 蜂窝模�
 - 发送中文短信和长短信。
 - 自动识别验证码，点击即可复制并标记已读。
 - 短信记录标注来源模组；可在不同可用模组之间选择发送目标。
-- 删除后不再出现在 CellDock；如果短信仍保存在模组中，CellDock 会同时尝试清理。
+- 删除后不再出现在 TowerBar；如果短信仍保存在模组中，TowerBar 会同时尝试清理。
 - 可选在验证码短信已读 30 分钟后自动删除。
 - 支持将收到的短信转发到 Bark、飞书自定义机器人或钉钉自定义机器人（设置 → 蜂窝与通信 →
   短信转发），每个渠道可单独开关，并提供"发送测试"按钮。地址和签名密钥保存在 macOS 钥匙串中。
@@ -97,7 +103,7 @@ CellDock 是一款原生 macOS 菜单栏应用，用于连接 QDC507 蜂窝模�
 - 自动识别物理 SIM 与 eUICC。
 - 对受支持的 eUICC 查看 EID 和套餐，并可下载、启用、停用、重命名或删除 eSIM 套餐。
 - 读取 macOS 系统通讯录，匹配短信与来电姓名。
-- 在 CellDock 中新建、编辑、删除联系人和管理联系人分组。
+- 在 TowerBar 中新建、编辑、删除联系人和管理联系人分组。
 
 ### 菜单栏、声音与界面
 
@@ -115,11 +121,13 @@ CellDock 是一款原生 macOS 菜单栏应用，用于连接 QDC507 蜂窝模�
 
 ## 鸣谢
 
-特别感谢 [moluncn/mavo](https://github.com/moluncn/mavo) 项目。CellDock 在界面与功能设计上参考了 mavo，得益于原作者的开源工作，特此鸣谢。
+TowerBar 基于 [CellDock](https://github.com/celldock/celldock-for-mac) 修改，感谢 CellDock contributors 的工作。
+
+CellDock 在界面与功能设计上参考了 [moluncn/mavo](https://github.com/moluncn/mavo)，一并致谢。
 
 ## 免责声明
 
-- CellDock 按“现状”提供，不附带任何明示或默示的担保，作者不对其适用性或特定用途表现作任何保证。
+- TowerBar 按“现状”提供，不附带任何明示或默示的担保，作者不对其适用性或特定用途表现作任何保证。
 - 本软件会修改 macOS 的网络配置（例如将蜂窝网络设为优先出口、安装网络辅助组件），可能影响既有网络连接，使用前请确认了解相关功能。
 - 蜂窝网络、短信、电话与 eSIM 等功能的可用性受模组固件、SIM 卡、运营商及当地网络环境影响，作者不保证其在所有环境下的可用性或表现。
 - 将蜂窝连接通过 SOCKS5 代理共享给局域网设备，会将该网络出口暴露给同一网络中的其他设备，请自行评估安全风险并妥善配置认证。
@@ -128,6 +136,6 @@ CellDock 是一款原生 macOS 菜单栏应用，用于连接 QDC507 蜂窝模�
 
 ## 许可证
 
-CellDock 应用代码使用[非商业使用许可](LICENSE)：个人和非商业用途可免费使用、
+TowerBar 与上游 CellDock 一样使用[非商业使用许可](LICENSE)，原版权声明保留在 LICENSE 中：个人和非商业用途可免费使用、
 修改与分发；**禁止任何形式的商业使用**，商业使用需另行获得作者书面授权。
 第三方组件及其许可证说明见 [THIRD_PARTY_NOTICES.md](docs/THIRD_PARTY_NOTICES.md)。

@@ -104,7 +104,7 @@ do {
     var tamperedPayload = try Data(contentsOf: payloadURL)
     tamperedPayload[tamperedPayload.index(before: tamperedPayload.endIndex)] ^= 0x01
     let tamperedPayloadURL = FileManager.default.temporaryDirectory
-        .appendingPathComponent("CellDock-ModuleVoice-\(UUID().uuidString).payload")
+        .appendingPathComponent("TowerBar-ModuleVoice-\(UUID().uuidString).payload")
     try tamperedPayload.write(to: tamperedPayloadURL, options: .atomic)
     defer { try? FileManager.default.removeItem(at: tamperedPayloadURL) }
     var rejectedTamperedPayload = false
@@ -116,7 +116,7 @@ do {
     try expect(rejectedTamperedPayload, "tampered ModuleVoice payload was accepted")
 
     let tombstoneRoot = FileManager.default.temporaryDirectory
-        .appendingPathComponent("CellDock-message-tombstone-\(UUID().uuidString)", isDirectory: true)
+        .appendingPathComponent("TowerBar-message-tombstone-\(UUID().uuidString)", isDirectory: true)
     defer { try? FileManager.default.removeItem(at: tombstoneRoot) }
     let tombstoneDate = Date(timeIntervalSince1970: 1_700_000_000)
     let tombstoneID = "stable-pdu-sha256"
@@ -132,15 +132,15 @@ do {
     )
 
     let launchAgentPropertyList = LaunchAtLoginController.propertyList(
-        appBundlePath: "/Users/test/Applications/CellDock.app"
+        appBundlePath: "/Users/test/Applications/TowerBar.app"
     )
     try expect(
-        launchAgentPropertyList["Label"] as? String == "app.celldock.mac.launch-at-login",
+        launchAgentPropertyList["Label"] as? String == "com.hoobnn.towerbar.launch-at-login",
         "LaunchAgent label"
     )
     try expect(
         launchAgentPropertyList["ProgramArguments"] as? [String] == [
-            "/usr/bin/open", "-g", "/Users/test/Applications/CellDock.app",
+            "/usr/bin/open", "-g", "/Users/test/Applications/TowerBar.app",
         ],
         "LaunchAgent app path"
     )
@@ -389,7 +389,7 @@ do {
     )
 
     try expect(
-        SMSVerificationCodeExtractor.extract(from: "【CellDock】您的验证码为 482913，5 分钟内有效。") == "482913",
+        SMSVerificationCodeExtractor.extract(from: "【TowerBar】您的验证码为 482913，5 分钟内有效。") == "482913",
         "Chinese verification code extraction"
     )
     try expect(
@@ -412,7 +412,7 @@ do {
     let readVerificationMessage = SMSMessage(
         id: "verification-read",
         modemIndices: [],
-        sender: "CellDock",
+        sender: "TowerBar",
         body: "您的验证码为 482913。",
         timestamp: verificationReadDate,
         rawPDUs: [],
@@ -1215,7 +1215,7 @@ do {
     )
     try expect(
         transitionalUSBConfiguration?.isSafeIdentityConversionSource == true,
-        "CellDock ADB-disabled transition tuple was not accepted as a safe conversion source"
+        "TowerBar ADB-disabled transition tuple was not accepted as a safe conversion source"
     )
     try expect(
         ModemSnapshot(
@@ -1229,12 +1229,12 @@ do {
     let maVoUSBConfiguration = ATResponseParser.parseUSBConfiguration(
         "+QCFG: \"usbcfg\",0x2C7C,0x125,1,1,1,1,1,1,1\r\nOK"
     )
-    try expect(maVoUSBConfiguration?.isCellDockTarget == true, "CellDock target USBCFG parsing")
-    try expect(maVoUSBConfiguration?.adbEnabled == true, "CellDock target ADB flag")
+    try expect(maVoUSBConfiguration?.isCellDockTarget == true, "TowerBar target USBCFG parsing")
+    try expect(maVoUSBConfiguration?.adbEnabled == true, "TowerBar target ADB flag")
     try expect(
         ModemUSBConfiguration.maVoTarget.usbcfgWriteCommand ==
             "AT+QCFG=\"USBCFG\",0x2C7C,0x0125,1,1,1,1,1,1,1",
-        "CellDock target USBCFG write command"
+        "TowerBar target USBCFG write command"
     )
     let nativeQuectelUSBConfiguration = ATResponseParser.parseUSBConfiguration(
         "+QCFG: \"usbcfg\",0x2C7C,0x125,1,1,1,1,1,0,1\r\nOK"
@@ -3312,7 +3312,7 @@ do {
 
     let loopbackIndex = if_nametoindex("lo0")
     // A client can close between readiness and a write. This must become an
-    // ordinary EPIPE path instead of terminating CellDock with SIGPIPE.
+    // ordinary EPIPE path instead of terminating TowerBar with SIGPIPE.
     SOCKSSignalSafety.install()
     try expect(raise(SIGPIPE) == 0, "SIGPIPE safety handler was not installed")
     try expect(loopbackIndex != 0, "test host has no loopback interface")
@@ -3535,7 +3535,7 @@ do {
         "a fully registered vowifi-go session was not reported as registered"
     )
 
-    // The same reply, but started by a previous CellDock launch: its SOCKS5
+    // The same reply, but started by a previous TowerBar launch: its SOCKS5
     // relay no longer exists, so it must never render as healthy.
     try expect(
         VoWiFiSessionState(
@@ -3648,7 +3648,7 @@ do {
         // Expected.
     }
 
-    print("CellDock self-tests passed (calls, PDU/UDH, SOCKS5, VoWiFi, buffering, storage, merge).")
+    print("TowerBar self-tests passed (calls, PDU/UDH, SOCKS5, VoWiFi, buffering, storage, merge).")
 } catch {
     fputs("Self-test failed: \(error)\n", stderr)
     exit(1)

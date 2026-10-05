@@ -19,7 +19,7 @@ enum UpdateChannel: String, CaseIterable, Identifiable {
     }
 
     fileprivate var feedURL: String {
-        "https://celldock.app/\(rawValue)/appcast.xml"
+        "https://raw.githubusercontent.com/hoobnn/towerbar/main/appcast/\(rawValue).xml"
     }
 }
 

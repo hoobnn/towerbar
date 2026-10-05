@@ -2,16 +2,16 @@
 set -euo pipefail
 
 MODE="${1:-run}"
-APP_NAME="CellDock"
-BUNDLE_ID="app.celldock.mac"
+APP_NAME="TowerBar"
+BUNDLE_ID="com.hoobnn.towerbar"
 ROOT_DIR="${0:A:h:h}"
 DIST_DIR="$ROOT_DIR/dist"
-APP_BUNDLE="$DIST_DIR/CellDock.app"
+APP_BUNDLE="$DIST_DIR/TowerBar.app"
 APP_CONTENTS="$APP_BUNDLE/Contents"
 APP_MACOS="$APP_CONTENTS/MacOS"
 APP_RESOURCES="$APP_CONTENTS/Resources"
 APP_FRAMEWORKS="$APP_CONTENTS/Frameworks"
-APP_BINARY="$APP_MACOS/CellDock"
+APP_BINARY="$APP_MACOS/TowerBar"
 HELPER_DIR="$APP_CONTENTS/Library/PrivilegedHelperTools"
 DAEMON_DIR="$APP_CONTENTS/Library/LaunchDaemons"
 WORKSPACE_HOME="$ROOT_DIR/.build/home"
@@ -53,7 +53,7 @@ BIN_DIR="$(xcrun swift build --disable-sandbox -Xswiftc -disable-sandbox --show-
 # the sandboxed $HOME above is only for isolating the SwiftPM build cache.
 export HOME="$REAL_HOME"
 
-[[ "$APP_BUNDLE" == "$ROOT_DIR/dist/CellDock.app" ]] || {
+[[ "$APP_BUNDLE" == "$ROOT_DIR/dist/TowerBar.app" ]] || {
   print -u2 "Unexpected app bundle path: $APP_BUNDLE"
   exit 1
 }
@@ -84,12 +84,12 @@ if [[ -n "$SUPABASE_KEY_VALUE" ]]; then
   /usr/libexec/PlistBuddy -c "Set :CellDockSupabasePublishableKey $SUPABASE_KEY_VALUE" \
     "$APP_CONTENTS/Info.plist"
 fi
-cp "$BIN_DIR/CellDock" "$APP_BINARY"
-cp "$BIN_DIR/CellDockNetworkHelper" "$HELPER_DIR/CellDockNetworkHelper"
+cp "$BIN_DIR/TowerBar" "$APP_BINARY"
+cp "$BIN_DIR/TowerBarNetworkHelper" "$HELPER_DIR/TowerBarNetworkHelper"
 ditto "$BIN_DIR/Sparkle.framework" "$APP_FRAMEWORKS/Sparkle.framework"
-cp "$ROOT_DIR/Resources/app.celldock.mac.network.helper.plist" \
-  "$DAEMON_DIR/app.celldock.mac.network.helper.plist"
-cp "$ROOT_DIR/Resources/CellDock.icns" "$APP_RESOURCES/CellDock.icns"
+cp "$ROOT_DIR/Resources/com.hoobnn.towerbar.network.helper.plist" \
+  "$DAEMON_DIR/com.hoobnn.towerbar.network.helper.plist"
+cp "$ROOT_DIR/Resources/TowerBar.icns" "$APP_RESOURCES/TowerBar.icns"
 cp -R "$ROOT_DIR/Resources/Localization/"*.lproj "$APP_RESOURCES/"
 mkdir -p "$APP_RESOURCES/Sounds"
 cp "$ROOT_DIR/Resources/Sounds/"* "$APP_RESOURCES/Sounds/"
@@ -111,8 +111,8 @@ fi
 
 xattr -cr "$APP_BUNDLE"
 codesign --force --sign "$SIGN_IDENTITY" --timestamp=none \
-  --identifier app.celldock.mac.network.helper \
-  "$HELPER_DIR/CellDockNetworkHelper"
+  --identifier com.hoobnn.towerbar.network.helper \
+  "$HELPER_DIR/TowerBarNetworkHelper"
 codesign --force --sign "$SIGN_IDENTITY" --timestamp=none \
   --identifier "$BUNDLE_ID" "$APP_BUNDLE"
 codesign --verify --deep --strict "$APP_BUNDLE"
@@ -140,7 +140,7 @@ open_app() {
     kill -0 "$LAUNCHED_PID" 2>/dev/null && return
     sleep 0.1
   done
-  print -u2 "CellDock did not start from the executable fallback: $APP_BINARY"
+  print -u2 "TowerBar did not start from the executable fallback: $APP_BINARY"
   exit 1
 }
 
@@ -166,10 +166,10 @@ case "$MODE" in
     kill -0 "$LAUNCHED_PID" 2>/dev/null
     RUNNING_COMMAND="$(ps -p "$LAUNCHED_PID" -o command=)"
     [[ "$RUNNING_COMMAND" == "$APP_BINARY"* ]] || {
-      print -u2 "Unexpected CellDock executable: $RUNNING_COMMAND"
+      print -u2 "Unexpected TowerBar executable: $RUNNING_COMMAND"
       exit 1
     }
-    print "CellDock launch verified: $APP_BINARY (pid $LAUNCHED_PID)"
+    print "TowerBar launch verified: $APP_BINARY (pid $LAUNCHED_PID)"
     ;;
   *)
     print -u2 "usage: $0 [run|--debug|--logs|--telemetry|--verify]"

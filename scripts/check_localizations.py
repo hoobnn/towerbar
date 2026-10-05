@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate CellDock's Localizable.strings files and literal L10n.tr keys."""
+"""Validate TowerBar's Localizable.strings files and literal L10n.tr keys."""
 
 from __future__ import annotations
 
@@ -389,7 +389,7 @@ def main() -> int:
         for key in sorted(keys - reference_keys):
             key_set_errors.append(f"{language} has extra key {key!r}")
 
-    usages = literal_l10n_keys(root / "Sources" / "CellDock")
+    usages = literal_l10n_keys(root / "Sources" / "TowerBar")
     missing_usage_errors: list[str] = []
     for key, locations in sorted(usages.items()):
         missing_languages = [language for language in LANGUAGES if key not in tables[language]]

@@ -1,6 +1,6 @@
 # ISD-R AID compatibility sources
 
-CellDock tries a candidate only when it can open the application and read a
+TowerBar tries a candidate only when it can open the application and read a
 valid numeric EID. A selectable AID alone is not enough to classify a card as
 an eUICC. A brand label describes where an AID was observed; it does not prove
 who manufactured a particular card.

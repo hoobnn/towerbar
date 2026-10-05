@@ -70,7 +70,7 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
 
     func openSystemSettings() {
         guard let url = URL(
-            string: "x-apple.systempreferences:com.apple.Notifications-Settings.extension?id=app.celldock.mac"
+            string: "x-apple.systempreferences:com.apple.Notifications-Settings.extension?id=com.hoobnn.towerbar"
         ) else { return }
         NSWorkspace.shared.open(url)
     }
@@ -103,12 +103,12 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         content.body = presentation.isEnabled
             ? L10n.tr("短信内容已隐藏")
             : message.preview
-        // CellDock plays the selected alert itself so MP3 and user-imported
+        // TowerBar plays the selected alert itself so MP3 and user-imported
         // audio work consistently without duplicating the notification sound.
         content.sound = nil
         content.userInfo = ["messageID": message.id]
         content.categoryIdentifier = AppNotificationIdentifier.messageCategory
-        content.threadIdentifier = "app.celldock.messages"
+        content.threadIdentifier = "com.hoobnn.towerbar.messages"
         content.interruptionLevel = .active
 
         let request = UNNotificationRequest(
@@ -129,12 +129,12 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
             ? L10n.tr("蜂窝来电")
             : (displayName ?? number ?? L10n.tr("未知号码"))
         content.subtitle = L10n.tr("蜂窝来电")
-        content.body = L10n.tr("可直接接听或拒接，也可以打开 CellDock 查看。")
+        content.body = L10n.tr("可直接接听或拒接，也可以打开 TowerBar 查看。")
         // The looping ringtone is owned by AlertSoundService and is stopped as
         // soon as the call leaves the incoming state.
         content.sound = nil
         content.categoryIdentifier = AppNotificationIdentifier.incomingCallCategory
-        content.threadIdentifier = "app.celldock.calls"
+        content.threadIdentifier = "com.hoobnn.towerbar.calls"
         content.interruptionLevel = .timeSensitive
         center.add(UNNotificationRequest(
             identifier: "call-incoming",
@@ -161,7 +161,7 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         content.body = L10n.tr("点击查看最近通话。")
         content.sound = .default
         content.categoryIdentifier = AppNotificationIdentifier.missedCallCategory
-        content.threadIdentifier = "app.celldock.calls"
+        content.threadIdentifier = "com.hoobnn.towerbar.calls"
         content.interruptionLevel = .active
         content.userInfo = ["callRecordID": record.id.uuidString]
         center.add(UNNotificationRequest(

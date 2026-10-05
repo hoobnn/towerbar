@@ -1,14 +1,22 @@
 [English](README.md) · [简体中文](README.zh-CN.md)
 
 <p align="center">
-  <img src="Resources/app_icon.png" width="128" height="128" alt="CellDock icon">
+  <img src="Resources/app_icon.png" width="128" height="128" alt="TowerBar icon">
 </p>
 
-<h1 align="center">CellDock</h1>
+<h1 align="center">TowerBar</h1>
 
 <p align="center">
   Use cellular network, SMS, and calls on your Mac.
 </p>
+
+> [!NOTE]
+> TowerBar is an unofficial modified version of
+> [CellDock](https://github.com/celldock/celldock-for-mac), maintained by
+> [@hoobnn](https://github.com/hoobnn) and not affiliated with the CellDock authors. Report
+> issues [here](https://github.com/hoobnn/towerbar/issues), not upstream. TowerBar uses its
+> own bundle ID, network helper, Keychain items, and update feed, so it can be installed
+> alongside CellDock. Screenshots are inherited from upstream.
 
 <p align="center">
   <sub>Screenshots · click to view full size</sub>
@@ -34,7 +42,7 @@
 | :---: |
 | <a href="screenshot/7. forwarding.png"><img src="screenshot/7. forwarding.png" width="320" alt="SMS Forwarding"></a> |
 
-CellDock is a native macOS menu bar app that works with the QDC507 cellular module.
+TowerBar is a native macOS menu bar app that works with the QDC507 cellular module.
 Plug in the module and you can use the cellular network directly on your Mac — send and
 receive SMS, manage contacts, make calls, save call recordings, or share a module's
 cellular connection as a SOCKS5 proxy — no browser-based service or extra communication
@@ -82,8 +90,8 @@ software required.
 - Auto-detects verification codes; click to copy and mark as read.
 - Messages are tagged with their source module; choose which available module sends each
   message.
-- Deleted messages no longer appear in CellDock; if a message is still stored on the module,
-  CellDock also tries to clear it.
+- Deleted messages no longer appear in TowerBar; if a message is still stored on the module,
+  TowerBar also tries to clear it.
 - Optionally auto-delete verification-code messages 30 minutes after they are read.
 - Forward incoming SMS to Bark, a Feishu custom bot, or a DingTalk custom bot (Settings →
   Cellular & Communications → SMS Forwarding), with per-channel enable toggles and a
@@ -111,7 +119,7 @@ software required.
 - On supported eUICCs, view the EID and profiles; download, enable, disable, rename, or
   delete eSIM profiles.
 - Reads the macOS Contacts database to match names on SMS and calls.
-- Create, edit, delete contacts and manage contact groups in CellDock.
+- Create, edit, delete contacts and manage contact groups in TowerBar.
 
 ### Menu Bar, Sound & Interface
 
@@ -132,13 +140,15 @@ software required.
 
 ## Acknowledgments
 
-Special thanks to the [moluncn/mavo](https://github.com/moluncn/mavo) project. CellDock
-draws on mavo for its interface and feature design; we are grateful for the original
-author's open-source work.
+TowerBar is based on [CellDock](https://github.com/celldock/celldock-for-mac); thanks to the
+CellDock contributors for their work.
+
+CellDock draws on [moluncn/mavo](https://github.com/moluncn/mavo) for its interface and
+feature design; thanks to its author as well.
 
 ## Disclaimer
 
-- CellDock is provided "as is", without any express or implied warranty. The author makes
+- TowerBar is provided "as is", without any express or implied warranty. The author makes
   no guarantees about its suitability or performance for any particular purpose.
 - The app modifies macOS network configuration (for example, making cellular the priority
   egress and installing a network helper), which may affect existing network connections.
@@ -156,7 +166,8 @@ author's open-source work.
 
 ## License
 
-CellDock's application code is licensed under a [non-commercial license](LICENSE): free to
+Like upstream CellDock, TowerBar is licensed under a [non-commercial license](LICENSE), which
+keeps the original copyright notice: free to
 use, modify, and distribute for personal and non-commercial purposes. **Any form of
 commercial use is prohibited**; commercial use requires separate written authorization from
 the author. Third-party components and their licenses are listed in

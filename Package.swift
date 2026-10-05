@@ -3,13 +3,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "CellDock",
+    name: "TowerBar",
     platforms: [
         .macOS(.v14)
     ],
     products: [
-        .executable(name: "CellDock", targets: ["CellDock"]),
-        .executable(name: "CellDockNetworkHelper", targets: ["CellDockNetworkHelper"]),
+        .executable(name: "TowerBar", targets: ["CellDock"]),
+        .executable(name: "TowerBarNetworkHelper", targets: ["CellDockNetworkHelper"]),
         .executable(name: "CellDockDialProbe", targets: ["CellDockDialProbe"]),
         .executable(name: "CellDockSMSDeleteProbe", targets: ["CellDockSMSDeleteProbe"])
     ],

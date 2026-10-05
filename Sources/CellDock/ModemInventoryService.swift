@@ -66,7 +66,7 @@ final class ModemInventoryService {
     var onDevices: (([DiscoveredModemDevice]) -> Void)?
 
     private let queue = DispatchQueue(
-        label: "app.celldock.mac.modem-inventory",
+        label: "com.hoobnn.towerbar.modem-inventory",
         qos: .utility
     )
     private var timer: DispatchSourceTimer?

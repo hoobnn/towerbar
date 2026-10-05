@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>app.celldock.mac.network.helper</string>
+    <string>com.hoobnn.towerbar.network.helper</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/Library/PrivilegedHelperTools/CellDockNetworkHelper</string>
+        <string>/Library/PrivilegedHelperTools/TowerBarNetworkHelper</string>
     </array>
     <key>MachServices</key>
     <dict>
-        <key>app.celldock.mac.network.helper</key>
+        <key>com.hoobnn.towerbar.network.helper</key>
         <true/>
     </dict>
     <key>ProcessType</key>

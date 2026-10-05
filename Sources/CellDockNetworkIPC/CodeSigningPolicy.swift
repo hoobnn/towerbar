@@ -2,8 +2,8 @@ import Foundation
 import Security
 
 public enum CellDockCodeSigningPolicy {
-    public static let appIdentifier = "app.celldock.mac"
-    public static let helperIdentifier = "app.celldock.mac.network.helper"
+    public static let appIdentifier = "com.hoobnn.towerbar"
+    public static let helperIdentifier = "com.hoobnn.towerbar.network.helper"
 
     public static func identifierRequirement(_ identifier: String) -> SecRequirement? {
         var requirement: SecRequirement?

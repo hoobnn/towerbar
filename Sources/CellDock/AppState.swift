@@ -6,7 +6,7 @@ import CellDockNetworkIPC
 import OSLog
 
 private let cellularNetworkLogger = Logger(
-    subsystem: "app.celldock.mac",
+    subsystem: "com.hoobnn.towerbar",
     category: "CellularNetwork"
 )
 
@@ -115,7 +115,7 @@ final class AppState: ObservableObject {
     private var automaticRecordingAttemptedCallID: UUID?
     private let privacyAliasSalt: String
     private static let initialSetupCompletedKey = "CellDockInitialSetupCompleted.v1"
-    private static let networkServiceRecordKey = "CellDock.modemNetworkServiceRecord"
+    private static let networkServiceRecordKey = "TowerBar.modemNetworkServiceRecord"
     private static let selectedInternetModuleKey = "SelectedInternetModule.v1"
     private static let hideDisconnectedMenuBarIconKey = "HideMenuBarIconWhenDisconnected.v1"
     private static let showsMenuBarNetworkSpeedKey = "ShowsMenuBarNetworkSpeed.v1"
@@ -2535,7 +2535,7 @@ final class AppState: ObservableObject {
                     Date().addingTimeInterval(5 * 60)
             }
             if !automatically, case let .failure(message) = result {
-                NSLog("CellDock hid a deleted SMS locally but module cleanup failed: %@", message)
+                NSLog("TowerBar hid a deleted SMS locally but module cleanup failed: %@", message)
             }
             self.scheduleVerificationAutoDelete()
         }

@@ -28,7 +28,7 @@ final class SMSForwardingService {
         for channel in channels {
             Task {
                 let result = await self.send(
-                    title: L10n.tr("[CellDock] 新短信"),
+                    title: L10n.tr("[TowerBar] 新短信"),
                     text: text,
                     channel: channel,
                     bark: bark,
@@ -56,8 +56,8 @@ final class SMSForwardingService {
             return (store.bark, store.feishu, store.dingtalk)
         }
         return await send(
-            title: L10n.tr("[CellDock] 测试推送"),
-            text: L10n.tr("这是一条来自 CellDock 短信转发功能的测试消息。"),
+            title: L10n.tr("[TowerBar] 测试推送"),
+            text: L10n.tr("这是一条来自 TowerBar 短信转发功能的测试消息。"),
             channel: channel,
             bark: bark,
             feishu: feishu,

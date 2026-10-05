@@ -3,7 +3,7 @@ import Foundation
 import Security
 
 private struct VoWiFiUpstreamCredentialStore {
-    private let service = "app.celldock.mac.vowifi-upstream"
+    private let service = "com.hoobnn.towerbar.vowifi-upstream"
 
     func password(for id: UUID) throws -> String? {
         let query: [String: Any] = [

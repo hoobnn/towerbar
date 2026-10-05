@@ -15,25 +15,25 @@ if [[ -n "${CELLDOCK_BUILD_VERSION:-}" ]]; then
   BUILD_VERSION="$CELLDOCK_BUILD_VERSION"
 else
   [[ "$SOURCE_BUILD_VERSION" == <-> ]] || {
-    print -u2 "Cannot automatically increment non-integer CellDock build version: $SOURCE_BUILD_VERSION"
+    print -u2 "Cannot automatically increment non-integer TowerBar build version: $SOURCE_BUILD_VERSION"
     exit 1
   }
   BUILD_VERSION="$((SOURCE_BUILD_VERSION + 1))"
   AUTO_INCREMENT_BUILD_VERSION=true
 fi
 [[ -n "$VERSION" && "$VERSION" != */* ]] || {
-  print -u2 "Invalid CellDock version: $VERSION"
+  print -u2 "Invalid TowerBar version: $VERSION"
   exit 1
 }
 [[ "$BUILD_VERSION" == <->(|.<->)(|.<->) ]] || {
-  print -u2 "Invalid CellDock build version: $BUILD_VERSION"
+  print -u2 "Invalid TowerBar build version: $BUILD_VERSION"
   exit 1
 }
 SIGNING_MODE="${CELLDOCK_SIGNING_MODE:-release}"
 case "$SIGNING_MODE" in
   release|development|community) ;;
   *)
-    print -u2 "Invalid CellDock signing mode: $SIGNING_MODE"
+    print -u2 "Invalid TowerBar signing mode: $SIGNING_MODE"
     print -u2 "Use release, development, or community."
     exit 1
     ;;
@@ -42,8 +42,8 @@ SIGN_IDENTITY="${CELLDOCK_CODESIGN_IDENTITY:-${MAVO_CODESIGN_IDENTITY:-}}"
 if [[ -z "$SIGN_IDENTITY" && "$SIGNING_MODE" != community ]]; then
   SIGN_IDENTITY="$(
   security find-identity -v -p codesigning |
-    awk -F'"' -v mode="$SIGNING_MODE" '
-      mode == "release" && /"Developer ID Application:/ { print $2; exit }
+    awk -F'"' -v mode="$SIGNING_MODE" -v team="(${TOWERBAR_TEAM_ID:-8FUPL8QHFH})" '
+      mode == "release" && /"Developer ID Application:/ && index($0, team) { print $2; exit }
       mode == "development" && /"Apple Development:/ { print $2; exit }
     '
   )"
@@ -59,7 +59,7 @@ fi
 }
 SIGN_IDENTITY_RECORD="$({ security find-identity -v -p codesigning || true; } | grep -F "$SIGN_IDENTITY" | head -n 1 || true)"
 [[ -n "$SIGN_IDENTITY_RECORD" && "$SIGN_IDENTITY" != "-" ]] || {
-  print -u2 "CellDock archives require a certificate-backed code-signing identity."
+  print -u2 "TowerBar archives require a certificate-backed code-signing identity."
   print -u2 "Ad-hoc signing is not allowed because it breaks signer pinning and Keychain continuity."
   exit 1
 }
@@ -72,14 +72,14 @@ APP_REQUIREMENT_OPTIONS=()
 HELPER_REQUIREMENT_OPTIONS=()
 if [[ "$SIGNING_MODE" == release ]]; then
   [[ "$SIGN_IDENTITY_RECORD" == *'"Developer ID Application:'* ]] || {
-    print -u2 "CellDock release archives must use a Developer ID Application identity."
+    print -u2 "TowerBar release archives must use a Developer ID Application identity."
     exit 1
   }
   ARCHIVE_SUFFIX=""
   CODESIGN_OPTIONS=(--options runtime --timestamp)
 elif [[ "$SIGNING_MODE" == development ]]; then
   [[ "$SIGN_IDENTITY_RECORD" == *'"Apple Development:'* ]] || {
-    print -u2 "CellDock development archives must use a stable Apple Development identity."
+    print -u2 "TowerBar development archives must use a stable Apple Development identity."
     print -u2 "Ad-hoc signing is not allowed because it would break Keychain access."
     exit 1
   }
@@ -90,30 +90,30 @@ else
   CODESIGN_OPTIONS=(--options runtime --timestamp=none)
   APP_REQUIREMENT_OPTIONS=(
     --requirements
-    "=designated => identifier \"app.celldock.mac\" and certificate leaf = H\"$SIGN_CERT_SHA1\""
+    "=designated => identifier \"com.hoobnn.towerbar\" and certificate leaf = H\"$SIGN_CERT_SHA1\""
   )
   HELPER_REQUIREMENT_OPTIONS=(
     --requirements
-    "=designated => identifier \"app.celldock.mac.network.helper\" and certificate leaf = H\"$SIGN_CERT_SHA1\""
+    "=designated => identifier \"com.hoobnn.towerbar.network.helper\" and certificate leaf = H\"$SIGN_CERT_SHA1\""
   )
 fi
 OUTPUT_DIR="$ROOT/outputs"
-APP="$OUTPUT_DIR/CellDock.app"
+APP="$OUTPUT_DIR/TowerBar.app"
 ARCHIVE_ARCH="universal"
 BUILD_ARCH_OPTIONS=(--arch arm64 --arch x86_64)
-ZIP="$OUTPUT_DIR/CellDock-$VERSION-$ARCHIVE_ARCH$ARCHIVE_SUFFIX.zip"
-PUBLISH_ZIP="$OUTPUT_DIR/.CellDock-$VERSION-$ARCHIVE_ARCH$ARCHIVE_SUFFIX.$$.zip"
-STAGE_DIR="$(mktemp -d /tmp/CellDock-build.XXXXXX)"
+ZIP="$OUTPUT_DIR/TowerBar-$VERSION-$ARCHIVE_ARCH$ARCHIVE_SUFFIX.zip"
+PUBLISH_ZIP="$OUTPUT_DIR/.TowerBar-$VERSION-$ARCHIVE_ARCH$ARCHIVE_SUFFIX.$$.zip"
+STAGE_DIR="$(mktemp -d /tmp/TowerBar-build.XXXXXX)"
 STAGE_PACKAGE_DIR="$STAGE_DIR/package"
-STAGE_APP="$STAGE_PACKAGE_DIR/CellDock.app"
+STAGE_APP="$STAGE_PACKAGE_DIR/TowerBar.app"
 SPARKLE_FRAMEWORK_SOURCE="$ROOT/.build/artifacts/sparkle/Sparkle/Sparkle.xcframework/macos-arm64_x86_64/Sparkle.framework"
 SPARKLE_FRAMEWORK_RELATIVE="Contents/Frameworks/Sparkle.framework"
-STAGE_ZIP="$STAGE_DIR/CellDock-$VERSION-$ARCHIVE_ARCH$ARCHIVE_SUFFIX.zip"
+STAGE_ZIP="$STAGE_DIR/TowerBar-$VERSION-$ARCHIVE_ARCH$ARCHIVE_SUFFIX.zip"
 VERIFY_DIR="$STAGE_DIR/verify"
-VERIFY_APP="$VERIFY_DIR/CellDock.app"
-HELPER_RELATIVE="Contents/Library/PrivilegedHelperTools/CellDockNetworkHelper"
-VOWIFI_RUNTIME_RELATIVE="Contents/Library/PrivilegedHelperTools/CellDockVoWiFiRuntime"
-PLIST_RELATIVE="Contents/Library/LaunchDaemons/app.celldock.mac.network.helper.plist"
+VERIFY_APP="$VERIFY_DIR/TowerBar.app"
+HELPER_RELATIVE="Contents/Library/PrivilegedHelperTools/TowerBarNetworkHelper"
+VOWIFI_RUNTIME_RELATIVE="Contents/Library/PrivilegedHelperTools/TowerBarVoWiFiRuntime"
+PLIST_RELATIVE="Contents/Library/LaunchDaemons/com.hoobnn.towerbar.network.helper.plist"
 cleanup() {
   /bin/rm -rf -- "$STAGE_DIR"
   /bin/rm -f -- "$PUBLISH_ZIP"
@@ -139,7 +139,7 @@ mkdir -p \
 cp "$ROOT/Resources/Info.plist" "$STAGE_APP/Contents/Info.plist"
 plutil -replace CFBundleShortVersionString -string "$VERSION" "$STAGE_APP/Contents/Info.plist"
 plutil -replace CFBundleVersion -string "$BUILD_VERSION" "$STAGE_APP/Contents/Info.plist"
-cp "$ROOT/Resources/CellDock.icns" "$STAGE_APP/Contents/Resources/CellDock.icns"
+cp "$ROOT/Resources/TowerBar.icns" "$STAGE_APP/Contents/Resources/TowerBar.icns"
 cp "$ROOT/Resources/sim.svg" "$STAGE_APP/Contents/Resources/sim.svg"
 cp "$ROOT/Resources/sim1.svg" "$STAGE_APP/Contents/Resources/sim1.svg"
 cp "$ROOT/Resources/celldock-module-vertical.svg" "$STAGE_APP/Contents/Resources/celldock-module-vertical.svg"
@@ -151,8 +151,8 @@ if [[ -d "$ROOT/Resources/ModuleVoice" ]]; then
     "$ROOT/Resources/ModuleVoice" \
     "$STAGE_APP/Contents/Resources/ModuleVoice.payload" >/dev/null
 fi
-cp "$BIN_DIR/CellDock" "$STAGE_APP/Contents/MacOS/CellDock"
-cp "$BIN_DIR/CellDockNetworkHelper" "$STAGE_APP/$HELPER_RELATIVE"
+cp "$BIN_DIR/TowerBar" "$STAGE_APP/Contents/MacOS/TowerBar"
+cp "$BIN_DIR/TowerBarNetworkHelper" "$STAGE_APP/$HELPER_RELATIVE"
 VOWIFI_GO_ROOT="$ROOT/ThirdParty/vowifi-go"
 [[ -f "$VOWIFI_GO_ROOT/go.mod" && -d "$VOWIFI_GO_ROOT/vendor" ]] || {
   print -u2 "Vendored vowifi-go runtime source is missing."
@@ -166,16 +166,16 @@ for GO_ARCH in arm64 amd64; do
     cd "$VOWIFI_GO_ROOT"
     CGO_ENABLED=0 GOOS=darwin GOARCH="$GO_ARCH" \
       go build -mod=vendor -trimpath -ldflags='-s -w' \
-      -o "$STAGE_DIR/vowifi/CellDockVoWiFiRuntime-$OUTPUT_ARCH" \
+      -o "$STAGE_DIR/vowifi/TowerBarVoWiFiRuntime-$OUTPUT_ARCH" \
       ./cmd/celldock-vowifi-runtime
   )
 done
 lipo -create \
-  "$STAGE_DIR/vowifi/CellDockVoWiFiRuntime-arm64" \
-  "$STAGE_DIR/vowifi/CellDockVoWiFiRuntime-x86_64" \
+  "$STAGE_DIR/vowifi/TowerBarVoWiFiRuntime-arm64" \
+  "$STAGE_DIR/vowifi/TowerBarVoWiFiRuntime-x86_64" \
   -output "$STAGE_APP/$VOWIFI_RUNTIME_RELATIVE"
 chmod 0755 "$STAGE_APP/$VOWIFI_RUNTIME_RELATIVE"
-cp "$ROOT/Resources/app.celldock.mac.network.helper.plist" "$STAGE_APP/$PLIST_RELATIVE"
+cp "$ROOT/Resources/com.hoobnn.towerbar.network.helper.plist" "$STAGE_APP/$PLIST_RELATIVE"
 [[ -d "$SPARKLE_FRAMEWORK_SOURCE" ]] || {
   print -u2 "SwiftPM did not resolve the Sparkle framework."
   exit 1
@@ -189,7 +189,7 @@ codesign \
   --force \
   --sign "$SIGN_IDENTITY" \
   "${CODESIGN_OPTIONS[@]}" \
-  --identifier app.celldock.mac.vowifi.runtime \
+  --identifier com.hoobnn.towerbar.vowifi.runtime \
   "$STAGE_APP/$VOWIFI_RUNTIME_RELATIVE"
 codesign \
   --force \
@@ -222,15 +222,15 @@ codesign \
   --sign "$SIGN_IDENTITY" \
   "${CODESIGN_OPTIONS[@]}" \
   "${HELPER_REQUIREMENT_OPTIONS[@]}" \
-  --identifier app.celldock.mac.network.helper \
+  --identifier com.hoobnn.towerbar.network.helper \
   "$STAGE_APP/$HELPER_RELATIVE"
 codesign \
   --force \
   --sign "$SIGN_IDENTITY" \
   "${CODESIGN_OPTIONS[@]}" \
   "${APP_REQUIREMENT_OPTIONS[@]}" \
-  --identifier app.celldock.mac \
-  --entitlements "$ROOT/Resources/CellDock.entitlements" \
+  --identifier com.hoobnn.towerbar \
+  --entitlements "$ROOT/Resources/TowerBar.entitlements" \
   "$STAGE_APP"
 codesign --verify --deep --strict --verbose=2 "$STAGE_APP"
 
@@ -250,11 +250,11 @@ for signed_code in \
     --test-requirement "=certificate leaf = H\"$SIGN_CERT_SHA1\"" \
     "$signed_code"
 done
-if [[ "$SIGNING_MODE" == development && -d /Applications/CellDock.app ]]; then
-  EXISTING_TEAM_ID="$(codesign -dvv /Applications/CellDock.app 2>&1 | awk -F= '$1 == "TeamIdentifier" && !found { print $2; found=1 }')"
+if [[ "$SIGNING_MODE" == development && -d /Applications/TowerBar.app ]]; then
+  EXISTING_TEAM_ID="$(codesign -dvv /Applications/TowerBar.app 2>&1 | awk -F= '$1 == "TeamIdentifier" && !found { print $2; found=1 }')"
   SIGNED_TEAM_ID="$(codesign -dvv "$STAGE_APP" 2>&1 | awk -F= '$1 == "TeamIdentifier" && !found { print $2; found=1 }')"
   [[ -n "$EXISTING_TEAM_ID" && "$SIGNED_TEAM_ID" == "$EXISTING_TEAM_ID" ]] || {
-    print -u2 "Development signing Team ID does not match the installed CellDock app."
+    print -u2 "Development signing Team ID does not match the installed TowerBar app."
     print -u2 "Refusing to replace an app that may own incompatible Keychain records."
     exit 1
   }
@@ -264,7 +264,7 @@ ditto -c -k --sequesterRsrc "$STAGE_PACKAGE_DIR" "$STAGE_ZIP"
 mkdir -p "$VERIFY_DIR"
 ditto -x -k "$STAGE_ZIP" "$VERIFY_DIR"
 
-VERIFY_BINARY="$VERIFY_APP/Contents/MacOS/CellDock"
+VERIFY_BINARY="$VERIFY_APP/Contents/MacOS/TowerBar"
 VERIFY_HELPER="$VERIFY_APP/$HELPER_RELATIVE"
 VERIFY_VOWIFI_RUNTIME="$VERIFY_APP/$VOWIFI_RUNTIME_RELATIVE"
 VERIFY_PLIST="$VERIFY_APP/$PLIST_RELATIVE"
@@ -285,7 +285,7 @@ fi
 # Check both slices of the extracted archive: a valid signature alone does not
 # guarantee that hardened-runtime builds can request privacy permissions.
 for architecture in arm64 x86_64; do
-  VERIFY_ENTITLEMENTS="$VERIFY_DIR/CellDock-$architecture.entitlements"
+  VERIFY_ENTITLEMENTS="$VERIFY_DIR/TowerBar-$architecture.entitlements"
   codesign --display --arch "$architecture" --entitlements - --xml \
     "$VERIFY_APP" > "$VERIFY_ENTITLEMENTS"
   for entitlement in \
@@ -307,15 +307,15 @@ plutil -lint "$VERIFY_PLIST"
   print -u2 "Archive Info.plist build version does not match $BUILD_VERSION."
   exit 1
 }
-[[ "$(plutil -extract CFBundleIdentifier raw "$VERIFY_APP/Contents/Info.plist")" == "app.celldock.mac" ]] || {
+[[ "$(plutil -extract CFBundleIdentifier raw "$VERIFY_APP/Contents/Info.plist")" == "com.hoobnn.towerbar" ]] || {
   print -u2 "Archive app bundle identifier is incorrect."
   exit 1
 }
-[[ "$(plutil -extract CFBundleExecutable raw "$VERIFY_APP/Contents/Info.plist")" == "CellDock" ]] || {
+[[ "$(plutil -extract CFBundleExecutable raw "$VERIFY_APP/Contents/Info.plist")" == "TowerBar" ]] || {
   print -u2 "Archive app executable name is incorrect."
   exit 1
 }
-[[ "$(plutil -extract CFBundleDisplayName raw "$VERIFY_APP/Contents/Info.plist")" == "CellDock" ]] || {
+[[ "$(plutil -extract CFBundleDisplayName raw "$VERIFY_APP/Contents/Info.plist")" == "TowerBar" ]] || {
   print -u2 "Archive app display name is incorrect."
   exit 1
 }
@@ -411,23 +411,23 @@ VERIFY_VOWIFI_ARCHS=" $(lipo -archs "$VERIFY_VOWIFI_RUNTIME") "
   print -u2 "Archive helper minOS is not 14.0."
   exit 1
 }
-[[ "$(codesign -dvv "$VERIFY_BINARY" 2>&1 | awk -F= '$1 == "Identifier" { print $2; exit }')" == "app.celldock.mac" ]] || {
+[[ "$(codesign -dvv "$VERIFY_BINARY" 2>&1 | awk -F= '$1 == "Identifier" { print $2; exit }')" == "com.hoobnn.towerbar" ]] || {
   print -u2 "Archive executable signing identifier is incorrect."
   exit 1
 }
-[[ "$(codesign -dvv "$VERIFY_HELPER" 2>&1 | awk -F= '$1 == "Identifier" { print $2; exit }')" == "app.celldock.mac.network.helper" ]] || {
+[[ "$(codesign -dvv "$VERIFY_HELPER" 2>&1 | awk -F= '$1 == "Identifier" { print $2; exit }')" == "com.hoobnn.towerbar.network.helper" ]] || {
   print -u2 "Archive helper signing identifier is incorrect."
   exit 1
 }
-[[ "$(plutil -extract Label raw "$VERIFY_PLIST")" == "app.celldock.mac.network.helper" ]] || {
+[[ "$(plutil -extract Label raw "$VERIFY_PLIST")" == "com.hoobnn.towerbar.network.helper" ]] || {
   print -u2 "LaunchDaemon label is incorrect."
   exit 1
 }
-[[ "$(plutil -extract ProgramArguments.0 raw "$VERIFY_PLIST")" == "/Library/PrivilegedHelperTools/CellDockNetworkHelper" ]] || {
+[[ "$(plutil -extract ProgramArguments.0 raw "$VERIFY_PLIST")" == "/Library/PrivilegedHelperTools/TowerBarNetworkHelper" ]] || {
   print -u2 "LaunchDaemon helper path is incorrect."
   exit 1
 }
-[[ "$(/usr/libexec/PlistBuddy -c 'Print :MachServices:app.celldock.mac.network.helper' "$VERIFY_PLIST")" == "true" ]] || {
+[[ "$(/usr/libexec/PlistBuddy -c 'Print :MachServices:com.hoobnn.towerbar.network.helper' "$VERIFY_PLIST")" == "true" ]] || {
   print -u2 "LaunchDaemon Mach service is missing."
   exit 1
 }
@@ -458,14 +458,14 @@ mv -f "$PUBLISH_ZIP" "$ZIP"
 
 if [[ "$AUTO_INCREMENT_BUILD_VERSION" == true ]]; then
   plutil -replace CFBundleVersion -string "$BUILD_VERSION" "$ROOT/Resources/Info.plist"
-  print "Advanced CellDock build version: $SOURCE_BUILD_VERSION -> $BUILD_VERSION"
+  print "Advanced TowerBar build version: $SOURCE_BUILD_VERSION -> $BUILD_VERSION"
 fi
 
 # A loose app inside this FileProvider workspace receives FinderInfo after
 # signing, invalidating strict verification. Keep the verified ZIP canonical.
 rm -rf -- "$APP"
-find "$OUTPUT_DIR" -maxdepth 1 -type d -name 'CellDock.previous.*.app' \
+find "$OUTPUT_DIR" -maxdepth 1 -type d -name 'TowerBar.previous.*.app' \
   -exec rm -rf -- {} +
-find "$OUTPUT_DIR" -maxdepth 1 -type f -name 'CellDock-*-universal.zip.previous.*' \
+find "$OUTPUT_DIR" -maxdepth 1 -type f -name 'TowerBar-*-universal.zip.previous.*' \
   -exec rm -f -- {} +
 print "Verified archive: $ZIP"

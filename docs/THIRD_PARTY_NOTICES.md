@@ -16,7 +16,7 @@ their source code is not copied into those components:
   <https://github.com/bluerobotics/cellphone-modem-manager>
 
 The eSIM implementation links the `euicc/` library from lpac v2.3.0,
-commit `c2fcf5e`, under LGPL-2.1-only. CellDock provides its own modem AT/APDU
+commit `c2fcf5e`, under LGPL-2.1-only. TowerBar provides its own modem AT/APDU
 and HTTPS adapters and does not compile lpac's AGPL command-line application,
 drivers, or utilities:
 
@@ -36,7 +36,7 @@ derived from `the-modem-distro/quectel_eg25_kernel`, commit
 
 - <https://github.com/the-modem-distro/quectel_eg25_kernel>
 
-The release archive includes the GPL-2.0 license beside `CellDock.app`. The runtime
+The release archive includes the GPL-2.0 license beside `TowerBar.app`. The runtime
 binaries are stored in the code-signed `Resources/ModuleVoice.payload` package.
 This notice and the module build report remain in the source distribution
 rather than the app bundle.

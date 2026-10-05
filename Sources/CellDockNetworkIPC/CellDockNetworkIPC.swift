@@ -9,11 +9,11 @@ public enum CellDockNetworkIPC {
     /// the identity mismatch is what makes the app run the authenticated
     /// installer and replace both root-owned executables atomically.
     public static let helperBuildVersion = 15
-    public static let helperIdentity = "CellDock Network Helper/\(helperBuildVersion)"
-    public static let helperLabel = "app.celldock.mac.network.helper"
-    public static let helperExecutableName = "CellDockNetworkHelper"
-    public static let voWiFiRuntimeExecutableName = "CellDockVoWiFiRuntime"
-    public static let launchDaemonPlistName = "app.celldock.mac.network.helper.plist"
+    public static let helperIdentity = "TowerBar Network Helper/\(helperBuildVersion)"
+    public static let helperLabel = "com.hoobnn.towerbar.network.helper"
+    public static let helperExecutableName = "TowerBarNetworkHelper"
+    public static let voWiFiRuntimeExecutableName = "TowerBarVoWiFiRuntime"
+    public static let launchDaemonPlistName = "com.hoobnn.towerbar.network.helper.plist"
 }
 
 public struct CellularNetworkConfigurationRequest: Codable, Equatable, Sendable {
