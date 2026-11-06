@@ -40,8 +40,11 @@
 | :---: |
 | <a href="screenshot/7. forwarding.png"><img src="screenshot/7. forwarding.png" width="320" alt="短信转发"></a> |
 
-TowerBar 是一款原生 macOS 菜单栏应用，用于连接 QDC507 蜂窝模组。插入模组后，
-你可以直接在 Mac 上使用蜂窝网络、收发短信、管理通讯录、拨打电话、保存通话录音，
+TowerBar 是一款原生 macOS 菜单栏应用，把 USB 蜂窝模组（QDC507）变成 Mac 上的上网卡和手机：
+蜂窝数据、短信、通话与录音、eSIM 管理，以及按模组共享的 SOCKS5 代理。仅限个人和非商业用途免费使用
+（源码可见的非商业许可，不是 OSI 意义上的开源），需要 macOS 14 及以上；它是 CellDock 的非官方修改版。
+
+插入模组后，你可以直接在 Mac 上使用蜂窝网络、收发短信、管理通讯录、拨打电话、保存通话录音，
 或把指定模组的蜂窝连接作为 SOCKS5 代理共享，无需浏览器服务或额外的通信软件。
 
 ## 主要功能
@@ -118,6 +121,29 @@ TowerBar 是一款原生 macOS 菜单栏应用，用于连接 QDC507 蜂窝模�
 - 可选择模组未插入时隐藏菜单栏图标。
 - 可选择登录 Mac 时自动启动，默认关闭。
 - 内置稳定版和测试版更新频道，可自动检查或手动检查更新。
+
+## 常见问题
+
+**TowerBar 是什么？**
+一款原生 macOS 菜单栏应用，让 Mac 通过 QDC507 USB 蜂窝模组使用蜂窝数据、收发短信、打电话并录音、管理 eSIM 和共享 SOCKS5 代理。它是 [CellDock](https://github.com/celldock/celldock-for-mac) 的非官方修改版。
+
+**TowerBar 和 CellDock 是同一个东西吗？该用哪个？**
+不是。TowerBar 是由 [@hoobnn](https://github.com/hoobnn) 维护的独立非官方分支，使用独立的 Bundle ID、网络 helper、钥匙串条目和更新源，可以与 CellDock 同时安装。想用原版并获得上游支持，请用 CellDock。
+
+**运行需要什么条件？**
+macOS 14 及以上的 Mac，以及受支持的 USB 蜂窝模组（README 与文档以 QDC507 为目标）和可用的 SIM 卡或 eSIM。蜂窝数据、短信、电话与 eSIM 的可用性取决于模组固件、SIM 卡和运营商。
+
+**怎么安装？**
+目前没有预编译发行版，也没有公证的下载包。请用 `scripts/build_app.sh` 从源码构建（需要代码签名身份，脚本支持 `development` 与 `community` 签名模式），再运行 `scripts/install_app.sh` 把 `TowerBar.app` 安装到 `/Applications`。
+
+**免费吗？可以商用吗？**
+个人和非商业用途免费。未经作者另行书面授权，禁止任何形式的商业使用，详见 [LICENSE](LICENSE)。
+
+**能把蜂窝网络共享给其他应用或设备吗？**
+可以，按模组创建 SOCKS5 代理，可只监听本机或监听局域网（局域网监听必须开启认证）。只在可信网络里对局域网开放。
+
+**界面支持哪些语言？**
+简体中文、English、日本語、Français，可在设置中即时切换。
 
 ## 鸣谢
 

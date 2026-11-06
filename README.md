@@ -42,7 +42,12 @@
 | :---: |
 | <a href="screenshot/7. forwarding.png"><img src="screenshot/7. forwarding.png" width="320" alt="SMS Forwarding"></a> |
 
-TowerBar is a native macOS menu bar app that works with the QDC507 cellular module.
+TowerBar is a native macOS menu bar app for using a USB cellular module (QDC507) as a phone
+and modem on your Mac: cellular data, SMS, voice calls with recording, eSIM management and
+per-module SOCKS5 proxies. It is free for personal, non-commercial use under a source-available
+non-commercial license (not an OSI open-source license) and requires macOS 14 or later.
+It is an unofficial modified version of CellDock.
+
 Plug in the module and you can use the cellular network directly on your Mac — send and
 receive SMS, manage contacts, make calls, save call recordings, or share a module's
 cellular connection as a SOCKS5 proxy — no browser-based service or extra communication
@@ -137,6 +142,29 @@ software required.
 - Optionally hide the menu bar icon when no module is connected.
 - Optionally launch at login, off by default.
 - Built-in stable and beta update channels with automatic or manual update checks.
+
+## FAQ
+
+**What is TowerBar?**
+A native macOS menu bar app that lets you use a QDC507 USB cellular module on your Mac for mobile data, SMS, phone calls with recording, eSIM profiles and SOCKS5 proxies. It is an unofficial modified version of [CellDock](https://github.com/celldock/celldock-for-mac).
+
+**Is TowerBar the same as CellDock? Which should I use?**
+No. TowerBar is a separate, unofficial fork maintained by [@hoobnn](https://github.com/hoobnn) with its own bundle ID, network helper, Keychain items and update feed, so both can be installed side by side. If you want the original project and its official support, use CellDock.
+
+**What do I need to run it?**
+A Mac running macOS 14 or later and a supported USB cellular module (the README and docs target the QDC507) with a working SIM or eSIM. Availability of data, SMS, calls and eSIM depends on module firmware, SIM and carrier.
+
+**How do I install it?**
+There is no prebuilt release or notarized download yet. Build from source with `scripts/build_app.sh` (a code-signing identity is required; see the script for the `development` and `community` signing modes), then run `scripts/install_app.sh` to copy `TowerBar.app` into `/Applications`.
+
+**Is it free? Can I use it commercially?**
+Free for personal and non-commercial use. Commercial use of any kind is prohibited without separate written authorization; see [LICENSE](LICENSE).
+
+**Can I share the cellular connection with other apps or devices?**
+Yes, as a per-module SOCKS5 proxy, listening on localhost or on the LAN (LAN listeners require authentication). Expose it to the LAN only on a network you trust.
+
+**Which languages does the interface support?**
+Simplified Chinese, English, Japanese and French, switchable in Settings.
 
 ## Acknowledgments
 
